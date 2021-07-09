@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         HumorUnivBestAssist
-// @namespace    http://humoruniv.net/
+// @namespace    http://humoruniv.com/
 // @version      0.1.2
 // @author       KKM
 // @description  이 스크립트는 웃긴대학 주간답글 베스트 작성을 도와주기 위한 목적으로 작성되었습니다.
