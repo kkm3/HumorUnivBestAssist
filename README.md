@@ -14,7 +14,7 @@
 
 # 사용방법
 1. 스크립트 다운로드
-   - 위 목록에서 최신 버전 zip 파일을 클릭하여 저장합니다.
+   - 초록색 "Code" 버튼을 눌러 "Download ZIP"을 선택하여 파일을 클릭하여 저장합니다.
 
 2. 확장프로그램 설치
    - https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo
