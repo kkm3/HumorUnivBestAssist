@@ -16,7 +16,7 @@
 1. 스크립트 다운로드
    - "Code" 버튼을 눌러 "Download ZIP"을 선택하여 파일을 클릭하여 저장합니다.
 
-2. 확장프로그램 설치
+2. 크롬 확장프로그램 설치 (크롬 브라우저에서 테스트 되었습니다)
    - https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo
 
 3. Tampermonkey 대시보드로 이동
@@ -28,3 +28,6 @@
 4. 스크립트 가져오기(Import)
    - "대시보드" 화면에서 "도구" 탭을 클릭
    - "압축(ZIP 파일)" 항목에서 "가져오기" 클릭하여 다운로드 받은 파일을 선택하면 설치 완료 됩니다.
+
+5. 웃긴대학 모바일 버전 사이트로 들어가면 게시물 열람시 오른쪽 상단에 "설정 열기" 버튼이 생긴걸 볼 수 있습니다.
+   - http://m.humoruniv.com/
