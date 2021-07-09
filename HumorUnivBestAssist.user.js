@@ -8,7 +8,7 @@
 // @description  이 스크립트는 크롬의 Tampermonkey 확장프로그램에서 실행될 수 있습니다.
 // @description  이 스크립트는 개인적인 목적으로 사용시 수정하여 사용할 수 있지만 수정된 스크립트를 배포 할 수 없습니다.
 // @description  이 스크립트를 사용하시는 분들은 반드시 배포하는 곳에서만 받아주세요.
-// @updateURL    https://github.com/kkm3/HumorUnivBestAssist/blob/main/HumorUnivBestAssist.user.js
+// @updateURL    https://github.com/kkm3/HumorUnivBestAssist/raw/main/HumorUnivBestAssist.user.js
 // @match        http://m.humoruniv.com/board/read.html?*
 // @grant        GM_setValue
 // @grant        GM_getValue
