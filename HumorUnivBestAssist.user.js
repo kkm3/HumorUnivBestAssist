@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         HumorUnivBestAssist
 // @namespace    http://humoruniv.net/
-// @version      0.2.1
+// @version      0.1.2
 // @author       KKM
 // @description  이 스크립트는 웃긴대학 주간답글 베스트 작성을 도와주기 위한 목적으로 작성되었습니다.
 // @description  이 스크립트를 수정해서 다른 악의적인 용도로 수정해서 배포시 법적 문제가 생길 수 있습니다.
@@ -16,8 +16,12 @@
 // ==/UserScript==
 
 // * 업데이트 기록
-// test
-// 2021-07-05 v0.2
+//
+// 2021-07-08 v0.1.2
+// - github을 이용한 자동업데이트 추가
+//   HTML구조 변경시 광고나 버튼 제거 안될 경우 수정한 버전을 다시 받아야 하는데, Tampermonkey에서 업데이트로 수정 가능
+//
+// 2021-07-05 v0.1.1
 // - 중단 광고 제거 추가
 // - 댓글 내용 굵게 옵션 추가
 //
