@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         HumorUnivBestAssist
 // @namespace    http://humoruniv.com/
-// @version      0.1.2
+// @version      0.1.3
 // @author       KKM
 // @description  이 스크립트는 웃긴대학 주간답글 베스트 작성을 도와주기 위한 목적으로 작성되었습니다.
 // @description  이 스크립트를 수정해서 다른 악의적인 용도로 수정해서 배포시 법적 문제가 생길 수 있습니다.
@@ -17,6 +17,9 @@
 // ==/UserScript==
 
 // * 업데이트 기록
+//
+// 2021-07-25 v0.1.3
+// - 제목이 긴 경우 오른쪽 워터마크 자리까지 길게 나오는데 줄바꿈 되도록 수정
 //
 // 2021-07-08 v0.1.2
 // - github을 이용한 자동업데이트 추가
@@ -35,7 +38,7 @@ var HUBA = {
     _xpath_removes : [
         '//*[@id="navi"]',// [상단] 네비게이션
         '//*[@id="pnut_iframe"]',// 상단 광고
-        '//*[@id="read_subject_div"]/table/tbody/tr/td[2]',// [상단] ▲ 버튼
+        //'//*[@id="read_subject_div"]/table/tbody/tr/td[2]',// [상단] ▲ 버튼 (제목이 긴 경우 오른쪽 빈공간 유지를 위해 제거 처리하지 않음)
         '//*[@id="read_subject_div"]/table/tbody/tr/td[3]',// [상단] 맨밑 버튼
         '//*[@id="read_subject_div"]/table/tbody/tr/td[4]',// [상단] ▼ 버튼
         '//*[@id="content_info"]/table/tbody/tr/td[1]/table/tbody/tr/td[3]/a/span[2]',// 닉네임의 아바타/쪽지/글검색 텍스트
@@ -60,6 +63,7 @@ var HUBA = {
 
     // 수정 처리될 오브젝트들
     _xpath_modify : [
+        ['#read_top_prev', 'visibility:hidden; width:130px;'],// 제목 오른쪽 빈공간 유지
         ['//*[@id="read_subject_div"]/table/tbody/tr/td[1]/h2', 'text-align:left; font-weight:bold;', 'replace'],// 게시물 제목 스타일
         ['//*[@id="content_info"]/table/tbody/tr', 'height:98px;', 'replace']// 작성자 정보 스타일
     ],
