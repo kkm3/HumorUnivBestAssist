@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         HumorUnivBestAssist
 // @namespace    http://humoruniv.com/
-// @version      0.1.3
+// @version      0.1.4
 // @author       KKM
 // @description  이 스크립트는 웃긴대학 주간답글 베스트 작성을 도와주기 위한 목적으로 작성되었습니다.
 // @description  이 스크립트를 수정해서 다른 악의적인 용도로 수정해서 배포시 법적 문제가 생길 수 있습니다.
@@ -17,6 +17,11 @@
 // ==/UserScript==
 
 // * 업데이트 기록
+//
+// 2021-09-04 v0.1.4
+// - '댓글 내용 굵게' 설정시 모든 댓글의 색상이 붉은색으로 변경되는 문제 수정
+// - 설정창에서 '댓글 내용 굵게' 옵션을 체크/체크해제 변경시 적용 버그 수정
+// - 설정창의 체크박스 UX 편의성 개선
 //
 // 2021-07-25 v0.1.3
 // - 제목이 긴 경우 오른쪽 워터마크 자리까지 길게 나오는데 줄바꿈 되도록 수정
@@ -63,7 +68,7 @@ var HUBA = {
 
     // 수정 처리될 오브젝트들
     _xpath_modify : [
-        ['#read_top_prev', 'visibility:hidden; width:130px;'],// 제목 오른쪽 빈공간 유지
+        ['#read_top_prev', 'visibility:hidden; width:130px;', 'replace'],// 제목 오른쪽 빈공간 유지
         ['//*[@id="read_subject_div"]/table/tbody/tr/td[1]/h2', 'text-align:left; font-weight:bold;', 'replace'],// 게시물 제목 스타일
         ['//*[@id="content_info"]/table/tbody/tr', 'height:98px;', 'replace']// 작성자 정보 스타일
     ],
@@ -107,11 +112,6 @@ var HUBA = {
 
     initialize : function()
     {
-        /*GM_setValue(name, string)
-        GM_getValue(name[, default])
-        GM_deleteValue(name)
-        GM_listValues()*/
-
         // add style
         $(document.head).append('<style type="text/css">\n'
                                 +'.HUBA_disabled { background-color:rgba(255, 0, 0, 0.2) !important; border:solid 2px red; }\n'
@@ -135,12 +135,12 @@ var HUBA = {
                                 +'<li><font style="color:red">비활성화</font> 할 항목이 많을 경우 사용합니다.<br>'
                                 +'글 열람시 자동 적용되며 일괄적으로 <font style="color:blue">활성화</font>/<font style="color:red">비활성화</font> 여부를 설정 합니다.<br>'
                                 +'개별 선택 후 <b>[보기]</b> 버튼을 누르면 <font style="color:red">비활성화</font>로 선택된 항목은 감춤 처리 됩니다.</li>'
-                                +'<li><input id="HUBAoptContEnable" type="checkbox" value="1" '+ ((this._is_display_contents == true) ? 'checked' : '') +'> 내용 기본 비활성화</li>'
-                                +'<li><input id="HUBAoptBestReplyEnable" type="checkbox" value="1" '+ ((this._is_display_bestreply == true) ? 'checked' : '') +'> 베스트댓글 기본 비활성화</li>'
-                                +'<li><input id="HUBAoptReplyEnable" type="checkbox" value="1" '+ ((this._is_display_reply == true) ? 'checked' : '') +'> 댓글 자동으로 비활성화</li>'
+                                +'<li><label for="HUBAoptContEnable" style="cursor:pointer"><input id="HUBAoptContEnable" type="checkbox" value="1" '+ ((this._is_display_contents == true) ? 'checked' : '') +'> 내용 기본 비활성화</label></li>'
+                                +'<li><label for="HUBAoptBestReplyEnable" style="cursor:pointer"><input id="HUBAoptBestReplyEnable" type="checkbox" value="1" '+ ((this._is_display_bestreply == true) ? 'checked' : '') +'> 베스트댓글 기본 비활성화</label></li>'
+                                +'<li><label for="HUBAoptReplyEnable" style="cursor:pointer"><input id="HUBAoptReplyEnable" type="checkbox" value="1" '+ ((this._is_display_reply == true) ? 'checked' : '') +'> 댓글 자동으로 비활성화</label></li>'
                                 +'<li>댓글 추천 <input id="HUBAoptReplyLimit" type="text" value="'+ this._hide_reply_recomm_count +'" style="width:30px"><b>이하</b> 비활성화</li>'
                                 +'<li>댓글 비추천 <input id="HUBAoptReplyLimit" type="text" value="'+ this._hide_reply_recomm_count +'" style="width:30px"><b>이상</b> 비활성화</li>'
-                                +'<li><input id="HUBAoptReplyBold" type="checkbox" value="1" '+ ((this._is_reply_bold == true) ? 'checked' : '') +'> 댓글 내용 굵게</li>'
+                                +'<li><label for="HUBAoptReplyBold" style="cursor:pointer"><input id="HUBAoptReplyBold" type="checkbox" value="1" '+ ((this._is_reply_bold == true) ? 'checked' : '') +'> 댓글 내용 굵게</label></li>'
 								+'</ul>'
                                 +'<div style="border-bottom:solid 1px #303030"><button id="HUBAbtnSaveAndApply" class="HUBAbtn"> 설정 저장 및 적용 </button></div>'
                                 +'<div><button id="HUBAbtnApply" class="HUBAbtn">&nbsp; 적용 &nbsp;</button> &nbsp;'
@@ -207,7 +207,7 @@ function showGuide()
     addEventToElements(HUBA._obj_bestreply, handlerToggleDisplay);// 이벤트 추가
     addEventToElements(HUBA._obj_reply, handlerToggleDisplay);// 이벤트 추가
 
-    //a = getElementsByXPath(this._xpath_removes);
+    // 삭제 할 오브젝트 숨김처리
     removeClassToElements(HUBA._obj_removes, 'HUBA_remove');
 
     // 감춰진 오브젝트들 해제 (다시 선택 가능하도록)
@@ -227,7 +227,11 @@ function hideGuide()
 
     // 스타일 수정 오브젝트 처리
     toggleModifyStyle(HUBA._obj_modify, "NEW");
-    toggleModifyStyle(HUBA._obj_reply_bold, "NEW");
+
+    if ($('#HUBAoptReplyBold').is(':checked') == true)
+        toggleModifyStyle(HUBA._obj_reply_bold, "NEW");
+    else
+        toggleModifyStyle(HUBA._obj_reply_bold, "OLD");
 
     // 선택한 오브젝트 처리
     addClassToElements('.HUBA_disabled', 'HUBA_hide');
@@ -289,33 +293,32 @@ function handlerReset()
 // 기본 스타일 정보와 바뀔 새로운 스타일 정보를 데이터로 저장
 function initElementStyle(arr, styles)
 {
-    var s
     for (var i = 0; i < arr.length; i++)
     {
-        s = $(arr[i]).attr("style") || ''
-        $(arr[i]).data("style_org", s || '')
+        $(arr[i]).each(function(index) {
+            var s = $(this).attr("style") || ''
+            $(this).attr("style_org", s +' ')
 
-        if (styles[i][2] == 'replace')
-        {
-            $(arr[i]).data("style_new", styles[i][1] || '')
-        }
-        else
-        {
-            //alert($(arr[i]).attr("style"))
-            //alert(s +' '+ styles[i][1])
-            $(arr[i]).data("style_new", (s +' '+ styles[i][1]) || '')
-        }
+            if (styles[i][2] == 'replace')
+            {
+                $(this).attr("style_new", styles[i][1] || '')
+            }
+            else
+            {
+                $(this).attr("style_new", s +' '+ styles[i][1] || '')
+            }
+        });
     }
 }
 
 // 스타일 변경을 해야하는 객체의 경우 스타일을 업데이트 한다
 function toggleModifyStyle(arr, flag)
 {
-    var s
     for (var i = 0; i < arr.length; i++)
     {
-        s = (flag == "NEW" ? $(arr[i]).data("style_new") : $(arr[i]).data("style_org"))
-        $(arr[i]).attr("style", s);
+        $(arr[i]).each(function(index) {
+            $(this).attr("style", (flag == "NEW" ? $(this).attr("style_new") : $(this).attr("style_org")));
+        });
     }
 }
 
