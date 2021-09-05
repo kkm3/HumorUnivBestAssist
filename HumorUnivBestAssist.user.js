@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         HumorUnivBestAssist
 // @namespace    http://humoruniv.com/
-// @version      0.1.4
+// @version      0.1.5
 // @author       KKM
 // @description  이 스크립트는 웃긴대학 주간답글 베스트 작성을 도와주기 위한 목적으로 작성되었습니다.
 // @description  이 스크립트를 수정해서 다른 악의적인 용도로 수정해서 배포시 법적 문제가 생길 수 있습니다.
@@ -17,6 +17,9 @@
 // ==/UserScript==
 
 // * 업데이트 기록
+//
+// 2021-09-05 v0.1.5
+// - 너굴맨이 설정된 경우 HTML 구조가 다르면 제대로 너굴맨이 선택되지 않던 문제 수정
 //
 // 2021-09-04 v0.1.4
 // - '댓글 내용 굵게' 설정시 모든 댓글의 색상이 붉은색으로 변경되는 문제 수정
@@ -76,7 +79,9 @@ var HUBA = {
     // 유저 선택에 따라 처리될 오브젝트들 (이미지, 내용, 댓글 등)
     _is_display_contents : Number(GM_getValue('default_display_contents', 0)),
     _xpath_contents : [
-        '//*[@id="wrap_copy"]/div/div',// 게시물 내 문단 #1 이미지류
+        'wrap_copy > div[id^="racy_show"]',// 너굴맨 블럭
+        'wrap_copy > *[id!="racy_show"][class!="body_editor"]',// 너굴맨 블럭이 아니고, 에디터 블럭이 아닌 기타 문단들
+        'wrap_copy > div[class="body_editor"] > div[id!="racy_show"]',// 내용이 에디터 블럭으로 묶인 경우, 에디터 내 문단들(너굴맨 블럭 제외)
         '//*[@id="wrap_copy"]/table | //*[@id="wrap_copy"]/p'// 게시물 내 문단 #2 GIF/텍스트
     ],
 
